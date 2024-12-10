@@ -30,14 +30,13 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
         
     private func configureConstraints() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
+        // SnapKit으로 제약 조건 설정
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(self.snp.top)
+            make.bottom.equalTo(self.snp.top)
+            make.leading.equalTo(self.snp.top)
+            make.trailing.equalTo(self.snp.top)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
