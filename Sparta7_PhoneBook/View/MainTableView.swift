@@ -11,11 +11,20 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     let tableView = UITableView()
     
-    let titleLabel : UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "PocketMon"
         label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textAlignment = .center
         return label
+    }()
+    
+    let addButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("추가", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.setTitleColor(.black, for: .normal)
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -42,11 +51,18 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-            make.centerX.equalToSuperview() // 부모 뷰의 X축 중심에 정렬
+            make.centerX.equalToSuperview()
+            make.width.equalTo(200)
+        }
+        
+        self.addSubview(addButton)
+        addButton.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(10)
         }
         // SnapKit으로 제약 조건 설정
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(titleLabel.snp.bottom)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
