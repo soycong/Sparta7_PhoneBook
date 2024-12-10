@@ -23,6 +23,8 @@ class ViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
+        let contactAddViewController = ContactAddViewController()
+        navigationController?.pushViewController(contactAddViewController, animated: true)
     }
 }
 
