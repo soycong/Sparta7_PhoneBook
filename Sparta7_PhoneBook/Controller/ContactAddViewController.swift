@@ -8,7 +8,9 @@ import UIKit
 
 class ContactAddViewController: UIViewController {
     private let contactAddView = ContactAddView()
+    
     var pokemon: PokemonImageModel?
+    var pokemonImageURL: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,8 @@ class ContactAddViewController: UIViewController {
             print("Height: \(pokemon.height)")
             print("Weight: \(pokemon.weight)")
             print("Sprite URL: \(pokemon.sprites.front_default)")
+            
+            pokemonImageURL = pokemon.sprites.front_default
         }
         
         setProfileImage()
@@ -37,7 +41,7 @@ class ContactAddViewController: UIViewController {
     }
     
     func setProfileImage() {
-        guard let imageURLString = pokemon?.sprites.front_default,
+        guard let imageURLString = pokemonImageURL,
               let profileImageURL = URL(string: imageURLString) else {
             print("유효하지 않은 이미지 URL입니다.")
             contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지
@@ -59,6 +63,32 @@ class ContactAddViewController: UIViewController {
         }
     }
     
+    func makeRandomPokemonImage() {
+        var randomNumber = Int.random(in: (1...1000))
+        
+        PokemonImageService.fetchPokemonData(pokemonID: randomNumber) { [weak self] (result: Result<PokemonImageModel, Error>) in
+            switch result {
+            case .success(let pokemon):
+                self?.pokemonImageURL = pokemon.sprites.front_default
+//                let contactAddViewController = ContactAddViewController()
+//                contactAddViewController.pokemon = pokemon // 전달
+                //self?.navigationController?.pushViewController(contactAddViewController, animated: true)
+                
+//                DispatchQueue.main.async {
+//                    self?.contactAddView.profileImageView.reloadData()
+//                }
+                
+            case .failure(let error):
+                print("Error fetching Pokémon data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     @objc private func saveButtonTapped() {
+    }
+    
+    @objc func randomChangeButtonTapped(_ sender: UIButton) {
+        makeRandomPokemonImage()
+        setProfileImage()
     }
 }
