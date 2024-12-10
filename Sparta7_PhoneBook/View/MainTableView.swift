@@ -48,21 +48,22 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
         
     private func configureConstraints() {
-        self.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-        }
-        
-        self.addSubview(addButton)
-        addButton.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(10)
-        }
+//        self.addSubview(titleLabel)
+//        titleLabel.snp.makeConstraints { make in
+//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+//            make.centerX.equalToSuperview()
+//            make.width.equalTo(200)
+//        }
+//        
+//        self.addSubview(addButton)
+//        addButton.snp.makeConstraints { make in
+//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+//            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(10)
+//        }
         // SnapKit으로 제약 조건 설정
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
+            //make.top.equalTo(titleLabel.snp.bottom)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)

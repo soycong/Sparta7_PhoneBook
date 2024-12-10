@@ -9,12 +9,20 @@ import UIKit
 
 class ViewController: UIViewController {
     private let mainTableView = MainTableView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         view = mainTableView
+        
+        navigationItem.title = "PocketMon"
+        
+        let addButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(addButtonTapped))
+        
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc private func addButtonTapped() {
     }
 }
 
