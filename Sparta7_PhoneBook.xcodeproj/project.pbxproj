@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B3539DB42D07FB5000E4ACDF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B3539DB32D07FB5000E4ACDF /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B3539D4B2D07D8BD00E4ACDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3539DB42D07FB5000E4ACDF /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = Sparta7_PhoneBook;
 			packageProductDependencies = (
+				B3539DB32D07FB5000E4ACDF /* SnapKit */,
 			);
 			productName = Sparta7_PhoneBook;
 			productReference = B3539D342D07D8BC00E4ACDF /* Sparta7_PhoneBook.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = B3539D2B2D07D8BC00E4ACDF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B3539DB22D07FB5000E4ACDF /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B3539D352D07D8BC00E4ACDF /* Products */;
 			projectDirPath = "";
@@ -561,6 +570,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B3539DB22D07FB5000E4ACDF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B3539DB32D07FB5000E4ACDF /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3539DB22D07FB5000E4ACDF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3539D2C2D07D8BC00E4ACDF /* Project object */;
 }
