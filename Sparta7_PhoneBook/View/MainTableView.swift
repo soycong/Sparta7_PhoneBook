@@ -11,8 +11,17 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     let tableView = UITableView()
     
+    let titleLabel : UILabel = {
+        let label = UILabel()
+        label.text = "PocketMon"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        backgroundColor = .white
+        
         configureTableView()
         configureConstraints()
     }
@@ -30,12 +39,17 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
         
     private func configureConstraints() {
+        self.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+            make.centerX.equalToSuperview() // 부모 뷰의 X축 중심에 정렬
+        }
         // SnapKit으로 제약 조건 설정
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.snp.top)
-            make.bottom.equalTo(self.snp.top)
-            make.leading.equalTo(self.snp.top)
-            make.trailing.equalTo(self.snp.top)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
         }
     }
     
