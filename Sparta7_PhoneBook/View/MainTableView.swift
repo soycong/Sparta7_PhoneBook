@@ -13,7 +13,7 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "PocketMon"
+        label.text = "PokeMon"
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textAlignment = .center
         return label
