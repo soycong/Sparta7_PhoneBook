@@ -46,20 +46,20 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         tableView.separatorStyle = .none
         self.addSubview(tableView)
     }
-        
+    
     private func configureConstraints() {
-//        self.addSubview(titleLabel)
-//        titleLabel.snp.makeConstraints { make in
-//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-//            make.centerX.equalToSuperview()
-//            make.width.equalTo(200)
-//        }
-//        
-//        self.addSubview(addButton)
-//        addButton.snp.makeConstraints { make in
-//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-//            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(10)
-//        }
+        //        self.addSubview(titleLabel)
+        //        titleLabel.snp.makeConstraints { make in
+        //            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+        //            make.centerX.equalToSuperview()
+        //            make.width.equalTo(200)
+        //        }
+        //        
+        //        self.addSubview(addButton)
+        //        addButton.snp.makeConstraints { make in
+        //            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+        //            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(10)
+        //        }
         // SnapKit으로 제약 조건 설정
         tableView.snp.makeConstraints { make in
             //make.top.equalTo(titleLabel.snp.bottom)
@@ -78,5 +78,9 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100 // Set this to the desired height
     }
 }
