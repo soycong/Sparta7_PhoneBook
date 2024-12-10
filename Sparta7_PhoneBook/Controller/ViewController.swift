@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         
         navigationItem.title = "Pokemon"
         
-        let addButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(addButtonTapped))
+        let addButton = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonTapped))
         
         navigationItem.rightBarButtonItem = addButton
     }
@@ -28,11 +28,13 @@ class ViewController: UIViewController {
 //        let contactAddViewController = ContactAddViewController()
 //        navigationController?.pushViewController(contactAddViewController, animated: true)
         
-        makeRandomPaockermonImage()
+        makeRandomPokemonImage()
     }
     
-    func makeRandomPaockermonImage() {
-        PokemonImageService.fetchPokemonData(pokemonID: 30) { [weak self] (result: Result<PokemonImageModel, Error>) in
+    func makeRandomPokemonImage() {
+        var randomNumber = Int.random(in: (1...1000))
+        
+        PokemonImageService.fetchPokemonData(pokemonID: randomNumber) { [weak self] (result: Result<PokemonImageModel, Error>) in
             switch result {
             case .success(let pokemon):
                 let contactAddViewController = ContactAddViewController()

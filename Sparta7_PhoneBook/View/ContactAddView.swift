@@ -11,7 +11,7 @@ class ContactAddView: UIView {
 
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ProfileImage")
+        //imageView.image = UIImage(named: "ProfileImage")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
