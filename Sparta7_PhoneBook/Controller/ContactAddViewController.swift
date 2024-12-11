@@ -6,98 +6,65 @@
 //
 import UIKit
 import CoreData
+import Alamofire
 
 class ContactAddViewController: UIViewController {
     private let contactAddView = ContactAddView()
-    
-    var container: NSPersistentContainer!
-    
+
     var pokemon: PokemonImageModel?
     var pokemonImageURL: String?
+
+    let phoneBookManager = PhoneBookDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = contactAddView
         
+        configureNavigationBar()
+        makeRandomPokemonImage()
+
+    }
+
+    func configureNavigationBar() {
         navigationItem.title = "Information"
         
         let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        
         navigationItem.rightBarButtonItem = saveButton
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.container = appDelegate.persistentContainer
-        
-        if let pokemon = pokemon {
-            print("Received Pokémon Data:")
-            print("ID: \(pokemon.id)")
-            print("Name: \(pokemon.name)")
-            print("Height: \(pokemon.height)")
-            print("Weight: \(pokemon.weight)")
-            print("Sprite URL: \(pokemon.sprites.front_default)")
-            
-            pokemonImageURL = pokemon.sprites.front_default
-        }
-        
-        setProfileImage()
-        
-        //        let BackButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        //        navigationItem.rightBarButtonItem = saveButton
     }
     
-    func setProfileImage() {
-        guard let imageURLString = pokemonImageURL,
-              let profileImageURL = URL(string: imageURLString) else {
-            print("유효하지 않은 이미지 URL입니다.")
-            contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지
+    func setProfileImage(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("유효하지 않은 URL입니다.")
             return
         }
         
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            if let imageData = try? Data(contentsOf: profileImageURL),
-               let downloadedImage = UIImage(data: imageData) {
+        AF.download(url).responseData { response in
+            if let data = response.value, let image = UIImage(data: data) {
                 DispatchQueue.main.async {
-                    self?.contactAddView.profileImageView.image = downloadedImage
+                    self.contactAddView.profileImageView.image = image
                 }
             } else {
                 DispatchQueue.main.async {
-                    print("이미지를 로드하는 데 실패했습니다.")
-                    self?.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지
+                    print("이미지 로드 실패")
                 }
             }
         }
     }
     
     func makeRandomPokemonImage() {
-        var randomNumber = Int.random(in: (1...1000))
-        
-        PokemonImageService.fetchPokemonData(pokemonID: randomNumber) { [weak self] (result: Result<PokemonImageModel, Error>) in
+        PokemonImageService.fetchPokemonData() { [weak self] (result: Result<PokemonImageModel, Error>) in
             switch result {
             case .success(let pokemon):
                 self?.pokemonImageURL = pokemon.sprites.front_default
+                self?.setProfileImage(from: self?.pokemonImageURL ?? "") // 이미지 설정
                 
             case .failure(let error):
                 print("Error fetching Pokémon data: \(error.localizedDescription)")
             }
         }
     }
-    
-    func createData(name: String, phoneNumber: String, profileImageURL: String) {
-        guard let entity = NSEntityDescription.entity(forEntityName: PhoneBook.className, in: self.container.viewContext) else { return }
-        let newPhoneBook = NSManagedObject(entity: entity, insertInto: self.container.viewContext)
-        newPhoneBook.setValue(name, forKey: PhoneBook.Key.name)
-        newPhoneBook.setValue(phoneNumber, forKey: PhoneBook.Key.number)
-        newPhoneBook.setValue(profileImageURL, forKey: PhoneBook.Key.profileImage)
-        
-        do {
-            try self.container.viewContext.save()
-            print("문맥 저장 성공")
-        } catch {
-            print("문맥 저장 실패")
-        }
-    }
-    
+
     @objc private func saveButtonTapped() {
         guard let name = contactAddView.nameTextView.text,
               let phoneNumber = contactAddView.numberTextView.text,
@@ -105,13 +72,13 @@ class ContactAddViewController: UIViewController {
             print("데이터가 비어 있습니다.")
             return
         }
-        createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
+        
+        phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
         
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc func randomChangeButtonTapped(_ sender: UIButton) {
         makeRandomPokemonImage()
-        setProfileImage()
     }
 }

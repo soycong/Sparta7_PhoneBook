@@ -33,7 +33,6 @@ final class MainTableViewCell: UITableViewCell {
     private lazy var verticalStackView = {
         let stackView = UIStackView(arrangedSubviews: [nameLabel, numberLabel])
         stackView.axis = .vertical
-        //stackView.spacing = 20
         stackView.alignment = .leading
         stackView.distribution = .fillEqually
         return stackView
@@ -42,7 +41,6 @@ final class MainTableViewCell: UITableViewCell {
     private lazy var horizontalStackView = {
         let stackView = UIStackView(arrangedSubviews: [profileImageView, verticalStackView])
         stackView.axis = .horizontal
-        //stackView.spacing = 20
         stackView.alignment = .leading
         stackView.distribution = .fill
         return stackView
@@ -63,7 +61,6 @@ final class MainTableViewCell: UITableViewCell {
         addSubview(horizontalStackView)
         
         horizontalStackView.snp.makeConstraints { make in
-            //make.edges.equalTo(self.safeAreaLayoutGuide).inset(20) // 전체 여백 20
             make.centerY.equalToSuperview()
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
@@ -72,35 +69,25 @@ final class MainTableViewCell: UITableViewCell {
         }
         
         verticalStackView.snp.makeConstraints { make in
-            //make.edges.equalTo(self.safeAreaLayoutGuide).inset(20) // 전체 여백 20
             make.centerY.equalTo(profileImageView)
-
-//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-//            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
-//            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
-//            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
         }
         
         profileImageView.snp.makeConstraints { make in
-           // make.centerY.equalToSuperview()
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(20)
             make.width.equalTo(profileImageSize)
-            make.height.equalTo(profileImageView.snp.width) // 1:1 비율
+            make.height.equalTo(profileImageView.snp.width)
         }
         
         profileImageView.layer.cornerRadius = profileImageSize/2
         profileImageView.layer.masksToBounds = true
 
         nameLabel.snp.makeConstraints { make in
-            //make.height.equalTo(35)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
         numberLabel.snp.makeConstraints { make in
-            //make.height.equalTo(35)
             make.leading.trailing.equalToSuperview().inset(20)
         }
     }
-    
 }

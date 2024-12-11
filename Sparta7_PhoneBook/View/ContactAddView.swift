@@ -31,10 +31,10 @@ class ContactAddView: UIView {
         textView.textColor = .lightGray
         textView.font = .systemFont(ofSize: 12)
         
-        textView.layer.borderColor = UIColor.gray.cgColor  // 테두리 색상
-        textView.layer.borderWidth = 1  // 테두리 두께
-        textView.layer.cornerRadius = 8  // 테두리 둥글기
-        textView.clipsToBounds = true  // 테두리가 둥글게 잘리도록 설정
+        textView.layer.borderColor = UIColor.gray.cgColor
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 8
+        textView.clipsToBounds = true
 
         return textView
     }()
@@ -45,10 +45,10 @@ class ContactAddView: UIView {
         textView.textColor = .lightGray
         textView.font = .systemFont(ofSize: 12)
         
-        textView.layer.borderColor = UIColor.gray.cgColor  // 테두리 색상
-        textView.layer.borderWidth = 1  // 테두리 두께
-        textView.layer.cornerRadius = 8  // 테두리 둥글기
-        textView.clipsToBounds = true  // 테두리가 둥글게 잘리도록 설정
+        textView.layer.borderColor = UIColor.gray.cgColor
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 8
+        textView.clipsToBounds = true
         
         return textView
     }()
@@ -79,19 +79,16 @@ class ContactAddView: UIView {
         addSubview(stackView)
         
         stackView.snp.makeConstraints { make in
-            //make.edges.equalTo(self.safeAreaLayoutGuide).inset(20) // 전체 여백 20
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            //make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
         }
         
         profileImageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview() // 중앙 정렬
+            make.centerX.equalToSuperview()
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
-            //make.width.equalToSuperview().multipliedBy(0.3) // 부모 뷰 너비의 30%
             make.width.equalTo(profileImageSize)
-            make.height.equalTo(profileImageView.snp.width) // 1:1 비율
+            make.height.equalTo(profileImageView.snp.width)
         }
         
         profileImageView.layer.cornerRadius = profileImageSize/2

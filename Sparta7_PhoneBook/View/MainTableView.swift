@@ -11,6 +11,8 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     let tableView = UITableView()
     
+    var phoneBookData: [PhoneBook] = [] // PhoneBook 데이터 배열
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "PokeMon"
@@ -52,19 +54,6 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func configureConstraints() {
-        //        self.addSubview(titleLabel)
-        //        titleLabel.snp.makeConstraints { make in
-        //            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-        //            make.centerX.equalToSuperview()
-        //            make.width.equalTo(200)
-        //        }
-        //        
-        //        self.addSubview(addButton)
-        //        addButton.snp.makeConstraints { make in
-        //            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
-        //            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(10)
-        //        }
-        // SnapKit으로 제약 조건 설정
         tableView.snp.makeConstraints { make in
             //make.top.equalTo(titleLabel.snp.bottom)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
@@ -74,18 +63,26 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func updateData(_ data: [PhoneBook]) {
+        self.phoneBookData = data
+        self.tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+        return phoneBookData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
         
-        cell.nameLabel.text = names[indexPath.row]
-        cell.numberLabel.text = numbers[indexPath.row]
+        let phoneBook = phoneBookData[indexPath.row]
         
-        if let url = URL(string: imageURLs[indexPath.row]), // String -> URL 변환
+        cell.nameLabel.text = phoneBook.name
+        cell.numberLabel.text = phoneBook.number
+        
+        if let profileImageString = phoneBook.profileImage,
+           let url = URL(string: profileImageString),
            let imageData = try? Data(contentsOf: url),
            let downloadedImage = UIImage(data: imageData) {
             cell.profileImageView.image = downloadedImage
@@ -96,6 +93,6 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100 // Set this to the desired height
+        return 100
     }
 }
