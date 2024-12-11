@@ -76,13 +76,6 @@ class ContactAddViewController: UIViewController {
             switch result {
             case .success(let pokemon):
                 self?.pokemonImageURL = pokemon.sprites.front_default
-                //                let contactAddViewController = ContactAddViewController()
-                //                contactAddViewController.pokemon = pokemon // 전달
-                //self?.navigationController?.pushViewController(contactAddViewController, animated: true)
-                
-                //                DispatchQueue.main.async {
-                //                    self?.contactAddView.profileImageView.reloadData()
-                //                }
                 
             case .failure(let error):
                 print("Error fetching Pokémon data: \(error.localizedDescription)")
@@ -105,22 +98,6 @@ class ContactAddViewController: UIViewController {
         }
     }
     
-    func readAllData() {
-        do {
-            let phoneBooks = try self.container.viewContext.fetch(PhoneBook.fetchRequest())
-            
-            for phoneBook in phoneBooks as [NSManagedObject] {
-                if let name = phoneBook.value(forKey: PhoneBook.Key.name) as? String,
-                   let phoneNumber = phoneBook.value(forKey: PhoneBook.Key.number),
-                   let profileImageURL = phoneBook.value(forKey: PhoneBook.Key.profileImage) {
-                    print("name: \(name), phoneNumber: \(phoneNumber), profileImageURL: \(profileImageURL)")
-                }
-            }
-        } catch {
-            print("데이터 읽기 실패")
-        }
-    }
-    
     @objc private func saveButtonTapped() {
         guard let name = contactAddView.nameTextView.text,
               let phoneNumber = contactAddView.numberTextView.text,
@@ -129,7 +106,6 @@ class ContactAddViewController: UIViewController {
             return
         }
         createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
-        readAllData()
     }
     
     @objc func randomChangeButtonTapped(_ sender: UIButton) {

@@ -27,6 +27,10 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         return button
     }()
     
+    var names: [String] = []
+    var numbers: [String] = []
+    var imageURLs: [String] = []
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         backgroundColor = .white
@@ -71,12 +75,23 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return names.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
+        
+        cell.nameLabel.text = names[indexPath.row]
+        cell.numberLabel.text = numbers[indexPath.row]
+        
+        if let url = URL(string: imageURLs[indexPath.row]), // String -> URL 변환
+           let imageData = try? Data(contentsOf: url),
+           let downloadedImage = UIImage(data: imageData) {
+            cell.profileImageView.image = downloadedImage
+        } else {
+            cell.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지 설정
+        }
         return cell
     }
     

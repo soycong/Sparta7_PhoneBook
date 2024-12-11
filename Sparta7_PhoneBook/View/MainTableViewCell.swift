@@ -10,7 +10,7 @@ import UIKit
 final class MainTableViewCell: UITableViewCell {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ProfileImage")
+        //imageView.image = UIImage(named: "ProfileImage")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
@@ -18,14 +18,14 @@ final class MainTableViewCell: UITableViewCell {
 
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name"
+        //label.text = "Name"
         label.font = .systemFont(ofSize: 15)
         return label
     }()
     
     let numberLabel: UILabel = {
         let label = UILabel()
-        label.text = "PhoneNumber"
+        //label.text = "PhoneNumber"
         label.font = .systemFont(ofSize: 15)
         return label
     }()
