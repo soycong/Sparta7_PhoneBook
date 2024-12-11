@@ -90,11 +90,12 @@ class ContactAddViewController: UIViewController {
         }
     }
     
-    func createData(name: String, phoneNumber: String) {
+    func createData(name: String, phoneNumber: String, profileImageURL: String) {
         guard let entity = NSEntityDescription.entity(forEntityName: PhoneBook.className, in: self.container.viewContext) else { return }
         let newPhoneBook = NSManagedObject(entity: entity, insertInto: self.container.viewContext)
         newPhoneBook.setValue(name, forKey: PhoneBook.Key.name)
         newPhoneBook.setValue(phoneNumber, forKey: PhoneBook.Key.number)
+        newPhoneBook.setValue(profileImageURL, forKey: PhoneBook.Key.profileImage)
         
         do {
             try self.container.viewContext.save()
@@ -110,8 +111,9 @@ class ContactAddViewController: UIViewController {
             
             for phoneBook in phoneBooks as [NSManagedObject] {
                 if let name = phoneBook.value(forKey: PhoneBook.Key.name) as? String,
-                   let phoneNumber = phoneBook.value(forKey: PhoneBook.Key.number) {
-                    print("name: \(name), phoneNumber: \(phoneNumber)")
+                   let phoneNumber = phoneBook.value(forKey: PhoneBook.Key.number),
+                   let profileImageURL = phoneBook.value(forKey: PhoneBook.Key.profileImage) {
+                    print("name: \(name), phoneNumber: \(phoneNumber), profileImageURL: \(profileImageURL)")
                 }
             }
         } catch {
@@ -121,11 +123,12 @@ class ContactAddViewController: UIViewController {
     
     @objc private func saveButtonTapped() {
         guard let name = contactAddView.nameTextView.text,
-              let phoneNumber = contactAddView.numberTextView.text else {
-            print("이름 또는 전화번호가 비어 있습니다.")
+              let phoneNumber = contactAddView.numberTextView.text,
+              let profileImageURL = pokemonImageURL else {
+            print("데이터가 비어 있습니다.")
             return
         }
-        createData(name: name, phoneNumber: phoneNumber)
+        createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
         readAllData()
     }
     
