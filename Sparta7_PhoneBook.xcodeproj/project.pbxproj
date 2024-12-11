@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3C7360F2D09440C0032F867 /* PhoneBook+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C7360E2D09440C0032F867 /* PhoneBook+CoreDataProperties.swift */; };
+		B3C736102D09440C0032F867 /* PhoneBook+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C7360D2D09440C0032F867 /* PhoneBook+CoreDataClass.swift */; };
 		B3E07DD32D09370B00F232E6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B3E07DD22D09370B00F232E6 /* SnapKit */; };
 		B3E07DD62D09371C00F232E6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B3E07DD52D09371C00F232E6 /* Alamofire */; };
 /* End PBXBuildFile section */
@@ -32,6 +34,8 @@
 		B3539D342D07D8BC00E4ACDF /* Sparta7_PhoneBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sparta7_PhoneBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3539D4A2D07D8BD00E4ACDF /* Sparta7_PhoneBookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sparta7_PhoneBookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3539D542D07D8BD00E4ACDF /* Sparta7_PhoneBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sparta7_PhoneBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3C7360D2D09440C0032F867 /* PhoneBook+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneBook+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B3C7360E2D09440C0032F867 /* PhoneBook+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneBook+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -95,6 +99,8 @@
 		B3539D2B2D07D8BC00E4ACDF = {
 			isa = PBXGroup;
 			children = (
+				B3C7360D2D09440C0032F867 /* PhoneBook+CoreDataClass.swift */,
+				B3C7360E2D09440C0032F867 /* PhoneBook+CoreDataProperties.swift */,
 				B3539D362D07D8BC00E4ACDF /* Sparta7_PhoneBook */,
 				B3539D4D2D07D8BD00E4ACDF /* Sparta7_PhoneBookTests */,
 				B3539D572D07D8BD00E4ACDF /* Sparta7_PhoneBookUITests */,
@@ -262,6 +268,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3C7360F2D09440C0032F867 /* PhoneBook+CoreDataProperties.swift in Sources */,
+				B3C736102D09440C0032F867 /* PhoneBook+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
