@@ -106,6 +106,8 @@ class ContactAddViewController: UIViewController {
             return
         }
         createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func randomChangeButtonTapped(_ sender: UIButton) {
