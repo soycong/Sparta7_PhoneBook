@@ -7,8 +7,8 @@
 import Alamofire
 
 class PokemonImageService {
-    static func fetchPokemonData(pokemonID: Int, completion: @escaping (Result<PokemonImageModel, Error>) -> Void) {
-        let urlString = "https://pokeapi.co/api/v2/pokemon/\(pokemonID)"
+    static func fetchPokemonData(completion: @escaping (Result<PokemonImageModel, Error>) -> Void) {
+        let urlString = "https://pokeapi.co/api/v2/pokemon/\(Int.random(in: (1...1000)))"
         
         AF.request(urlString).responseDecodable(of: PokemonImageModel.self) { response in
             switch response.result {
