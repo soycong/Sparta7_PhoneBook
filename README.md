@@ -1,4 +1,4 @@
-# 내배캠 개인과제7: CoreData를 활용한 PhoneBook 앱 만들기
+# 내배캠 개인과제7: CoreData를 활용한 PhoneBook 앱 만들기
 
 ## 필수 구현 기능
 - *모든 예외 처리 필수 및 AutoLayout 설정
