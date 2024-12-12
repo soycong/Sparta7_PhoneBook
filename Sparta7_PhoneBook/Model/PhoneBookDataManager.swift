@@ -34,7 +34,14 @@ class PhoneBookDataManager {
         var phoneBooksArray: [PhoneBook] = []
         
         do {
-            let phoneBooks = try self.container.viewContext.fetch(PhoneBook.fetchRequest())
+            // Fetch request 생성
+            let fetchRequest: NSFetchRequest<PhoneBook> = PhoneBook.fetchRequest()
+            
+            // 정렬 기준 추가: 이름 오름차순
+            let sortDescriptor = NSSortDescriptor(key: PhoneBook.Key.name, ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            
+            let phoneBooks = try self.container.viewContext.fetch(fetchRequest)
             phoneBooksArray = phoneBooks
             
         } catch {
