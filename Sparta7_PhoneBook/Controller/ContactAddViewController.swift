@@ -113,7 +113,7 @@ class ContactAddViewController: UIViewController {
         
         let pokemonImageString = convertImageToString(profileImage)
         
-        phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name)
+        phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name, updateNumber: phoneNumber,  updateProfileImage:pokemonImageString)
         
         self.navigationController?.popViewController(animated: true)
     }

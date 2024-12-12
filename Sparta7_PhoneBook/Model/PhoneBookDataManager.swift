@@ -51,7 +51,7 @@ class PhoneBookDataManager {
         return phoneBooksArray
     }
     
-    func updateData(currentName: String, updateName: String) {
+    func updateData(currentName: String, updateName: String, updateNumber: String, updateProfileImage: String) {
 
         // 수정할 데이터를 찾기 위한 fetch request 생성
         let fetchRequest = PhoneBook.fetchRequest()
@@ -65,6 +65,8 @@ class PhoneBookDataManager {
             for data in result as [NSManagedObject] {
                 // 데이터 수정
                 data.setValue(updateName, forKey: PhoneBook.Key.name) // 이름을 "Adam"에서 "Abel"로 수정
+                data.setValue(updateNumber, forKey: PhoneBook.Key.number)
+                data.setValue(updateProfileImage, forKey: PhoneBook.Key.profileImage)
                 
                 // 변경 사항 저장
                 try self.container.viewContext.save()
