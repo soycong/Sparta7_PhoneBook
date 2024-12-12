@@ -92,20 +92,22 @@ class PhoneBookDataManager {
     }
     
     func deleteAllData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
+        let context = self.container.viewContext
         
-        // Fetch 모든 엔티티를 가져옴
-        let entities = appDelegate.persistentContainer.managedObjectModel.entities
+        let entities = self.container.managedObjectModel.entities.filter { entity in
+            return entity.name == "PhoneBook"
+        }
+        
         for entity in entities {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name ?? "")
+            
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
             
             do {
                 try context.execute(deleteRequest)
                 print("Entity \(entity.name ?? "") 데이터 삭제 성공!")
             } catch let error {
-                print("Entity \(entity.name ?? "") 데이터 삭제 실패: \(error)")
+                print("Entity \(entity.name ?? "") 데이터 삭제 실패: \(error.localizedDescription)")
             }
         }
     }
