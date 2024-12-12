@@ -11,7 +11,6 @@ class ContactAddView: UIView {
 
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        //imageView.image = UIImage(named: "ProfileImage")
         imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor.systemCyan.cgColor
         imageView.contentMode = .scaleAspectFit
@@ -102,7 +101,6 @@ class ContactAddView: UIView {
         
         randomImageButton.addTarget(UIViewController(), action: #selector(ContactAddViewController.randomChangeButtonTapped(_:)), for: .touchUpInside)
 
-        
         nameTextView.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.leading.trailing.equalToSuperview().inset(30)

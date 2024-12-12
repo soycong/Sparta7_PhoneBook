@@ -4,17 +4,20 @@
 //
 //  Created by seohuibaek on 12/10/24.
 //
+enum ContactMode {
+    case add
+    case edit
+}
+
 import UIKit
 import CoreData
 import Alamofire
 
 class ContactAddViewController: UIViewController {
     private let contactAddView = ContactAddView()
-
-    var pokemon: PokemonImageModel?
-    var pokemonImageURL: String?
-
     let phoneBookManager = PhoneBookDataManager()
+    var contact: PhoneBook?
+    var mode: ContactMode = .add
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,59 +25,76 @@ class ContactAddViewController: UIViewController {
         view = contactAddView
         
         configureNavigationBar()
-    }
-
-    func configureNavigationBar() {
-        navigationItem.title = "New Contact"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+        
+        if mode == .edit {
+            setContactData()
+        }
     }
     
-    func setProfileImage(from urlString: String) {
-        guard let url = URL(string: urlString) else {
-            print("유효하지 않은 URL입니다.")
-            self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
-            return
+    // 상황에 따라 NavigationBar 설정
+    func configureNavigationBar() {
+        switch mode {
+        case .add:
+            navigationItem.title = "New Contact"
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped)
+            )
+        case .edit:
+            navigationItem.title = "Contact"
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped)
+            )
         }
         
-        AF.download(url).responseData { response in
-            if let data = response.value, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.contactAddView.profileImageView.image = image
-                }
-            } else {
-                DispatchQueue.main.async {
-                    print("이미지 로드 실패")
-                    self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
-                }
-            }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+    }
+    
+    func setContactData() {
+        guard let contact = contact else { return }
+        contactAddView.nameTextView.text = contact.name
+        contactAddView.numberTextView.text = contact.number
+        
+        if let imageString = contact.profileImage {
+            contactAddView.profileImageView.image = ImageConversionHelper.convertStringToImage(imageString)
         }
     }
     
+    // 랜덤 이미지 형성
     func makeRandomPokemonImage() {
-        PokemonImageService.fetchPokemonData() { [weak self] (result: Result<PokemonImageModel, Error>) in
+        PokemonImageService.fetchPokemonData { result in
             switch result {
-            case .success(let pokemon):
-                self?.pokemonImageURL = pokemon.sprites.front_default
-                self?.setProfileImage(from: self?.pokemonImageURL ?? "") // 이미지 설정
+            case .success(let pokemonImage):
+                self.contactAddView.profileImageView.image = pokemonImage
                 
             case .failure(let error):
-                print("Error fetching Pokémon data: \(error.localizedDescription)")
+                print("Error: \(error)")
             }
         }
     }
 
-    @objc private func saveButtonTapped() {
+    func handleSaveModeAndEditMode(isEditMode: Bool) {
         guard let name = contactAddView.nameTextView.text,
               let phoneNumber = contactAddView.numberTextView.text,
-              let profileImageURL = pokemonImageURL else {
+              let profileImage = contactAddView.profileImageView.image else {
             print("데이터가 비어 있습니다.")
             return
         }
         
-        phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
+        let pokemonImageString = ImageConversionHelper.convertImageToString(profileImage) ?? ""
+
+        if isEditMode { // edit일 경우 data upadte
+            phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name, updateNumber: phoneNumber, updateProfileImage: pokemonImageString)
+        } else {  //add일 경우 data create
+            phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: pokemonImageString)
+        }
         
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func saveButtonTapped() {
+        handleSaveModeAndEditMode(isEditMode: false)
+    }
+    
+    @objc func editButtonTapped() {
+        handleSaveModeAndEditMode(isEditMode: true)
     }
     
     @objc func randomChangeButtonTapped(_ sender: UIButton) {

@@ -10,7 +10,6 @@ import UIKit
 final class MainTableViewCell: UITableViewCell {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        //imageView.image = UIImage(named: "ProfileImage")
         imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor.systemCyan.cgColor
         imageView.contentMode = .scaleAspectFit
@@ -20,33 +19,15 @@ final class MainTableViewCell: UITableViewCell {
 
     let nameLabel: UILabel = {
         let label = UILabel()
-        //label.text = "Name"
         label.font = .systemFont(ofSize: 15)
         return label
     }()
     
     let numberLabel: UILabel = {
         let label = UILabel()
-        //label.text = "PhoneNumber"
         label.font = .systemFont(ofSize: 15)
         return label
     }()
-    
-//    private lazy var verticalStackView = {
-//        let stackView = UIStackView(arrangedSubviews: [nameLabel, numberLabel])
-//        stackView.axis = .vertical
-//        stackView.alignment = .leading
-//        stackView.distribution = .fillEqually
-//        return stackView
-//    }()
-//    
-//    private lazy var horizontalStackView = {
-//        let stackView = UIStackView(arrangedSubviews: [profileImageView, verticalStackView])
-//        stackView.axis = .horizontal
-//        stackView.alignment = .leading
-//        stackView.distribution = .fill
-//        return stackView
-//    }()
     
     private lazy var horizontalStackView = {
         let stackView = UIStackView(arrangedSubviews: [profileImageView, nameLabel, numberLabel])
@@ -79,10 +60,6 @@ final class MainTableViewCell: UITableViewCell {
             make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
         }
         
-        //        verticalStackView.snp.makeConstraints { make in
-        //            make.centerY.equalTo(profileImageView)
-        //        }
-        
         profileImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
@@ -107,13 +84,5 @@ final class MainTableViewCell: UITableViewCell {
             make.width.equalTo(100)
             make.height.equalTo(profileImageView.snp.width)
         }
-        
-        //        nameLabel.snp.makeConstraints { make in
-        //            make.leading.trailing.equalToSuperview().inset(20)
-        //        }
-        //
-        //        numberLabel.snp.makeConstraints { make in
-        //            make.leading.trailing.equalToSuperview().inset(20)
-        //        }
     }
 }

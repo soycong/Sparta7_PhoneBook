@@ -7,28 +7,17 @@
 import UIKit
 import SnapKit
 
+protocol MainTableViewDelegate: AnyObject {
+    func didSelectContact(_ contact: PhoneBook)
+}
+
 class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
+    weak var delegate: MainTableViewDelegate?
     
     let tableView = UITableView()
     
     var phoneBookData: [PhoneBook] = []
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "PokeMon"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    let addButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("추가", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        return button
-    }()
-    
+
     var names: [String] = []
     var numbers: [String] = []
     var imageURLs: [String] = []
@@ -55,7 +44,6 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     private func configureConstraints() {
         tableView.snp.makeConstraints { make in
-            //make.top.equalTo(titleLabel.snp.bottom)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
@@ -63,9 +51,17 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    // reloadData를 통해 데잍 ㅓ갱신
     func updateData(_ data: [PhoneBook]) {
         self.phoneBookData = data
         self.tableView.reloadData()
+    }
+    
+    // Cell 선택
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedContact = phoneBookData[indexPath.row]
+        delegate?.didSelectContact(selectedContact)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,16 +76,8 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         cell.nameLabel.text = phoneBook.name
         cell.numberLabel.text = phoneBook.number
-        
-        if let profileImageString = phoneBook.profileImage,
-           let url = URL(string: profileImageString),
-           let imageData = try? Data(contentsOf: url),
-           let downloadedImage = UIImage(data: imageData) {
-            cell.profileImageView.image = downloadedImage
-        } else {
-            cell.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지 설정
-        }
-        
+        cell.profileImageView.image = ImageConversionHelper.convertStringToImage(phoneBook.profileImage)
+
         return cell
     }
     
