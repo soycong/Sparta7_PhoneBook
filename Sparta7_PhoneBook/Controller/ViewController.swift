@@ -44,7 +44,6 @@ class ViewController: UIViewController, MainTableViewDelegate {
     @objc private func addButtonTapped() {
         let contactAddViewController = ContactAddViewController()
         contactAddViewController.makeRandomPokemonImage()
-        
         navigationController?.pushViewController(contactAddViewController, animated: true)
     }
     
@@ -52,6 +51,7 @@ class ViewController: UIViewController, MainTableViewDelegate {
     func didSelectContact(_ contact: PhoneBook) {
         let contactAddViewController = ContactAddViewController()
         contactAddViewController.contact = contact
+        contactAddViewController.mode = .edit
         navigationController?.pushViewController(contactAddViewController, animated: true)
     }
 }
