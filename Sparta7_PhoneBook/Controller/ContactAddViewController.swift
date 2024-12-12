@@ -51,9 +51,8 @@ class ContactAddViewController: UIViewController {
         contactAddView.nameTextView.text = contact.name
         contactAddView.numberTextView.text = contact.number
         
-        if let imageString = contact.profileImage,
-           let image = convertStringToImage(imageString) {
-            contactAddView.profileImageView.image = image
+        if let imageString = contact.profileImage {
+            contactAddView.profileImageView.image = ImageConversionHelper.convertStringToImage(imageString)
         }
     }
     
@@ -68,20 +67,6 @@ class ContactAddViewController: UIViewController {
             }
         }
     }
-    
-    func convertImageToString(_ image: UIImage) -> String {
-        guard let data = image.pngData() else { return ("convertImageToString fail") }
-        
-        return data.base64EncodedString()
-    }
-    
-    func convertStringToImage(_ base64: String) -> UIImage? {
-        guard let data = Data(base64Encoded: base64, options: .ignoreUnknownCharacters) else {
-            return UIImage(named: "ProfileImage")
-        }
-        
-        return UIImage(data: data)
-    }
 
     func handleSaveModeAndEditMode(isEditMode: Bool) {
         guard let name = contactAddView.nameTextView.text,
@@ -91,8 +76,8 @@ class ContactAddViewController: UIViewController {
             return
         }
         
-        let pokemonImageString = convertImageToString(profileImage)
-        
+        let pokemonImageString = ImageConversionHelper.convertImageToString(profileImage) ?? ""
+
         if isEditMode {
             phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name, updateNumber: phoneNumber, updateProfileImage: pokemonImageString)
         } else {

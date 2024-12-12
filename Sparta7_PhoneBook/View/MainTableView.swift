@@ -55,17 +55,7 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.phoneBookData = data
         self.tableView.reloadData()
     }
-    
-    func convertStringToImage(_ base64: String) -> UIImage? {
-        guard let data = Data(base64Encoded: base64, options: .ignoreUnknownCharacters) else {
-            return UIImage(named: "ProfileImage")
-        }
-        
-        let decodedImg = UIImage(data: data)
 
-        return decodedImg
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedContact = phoneBookData[indexPath.row]
         delegate?.didSelectContact(selectedContact)
@@ -84,7 +74,7 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         cell.nameLabel.text = phoneBook.name
         cell.numberLabel.text = phoneBook.number
-        cell.profileImageView.image = convertStringToImage(phoneBook.profileImage ?? "")
+        cell.profileImageView.image = ImageConversionHelper.convertStringToImage(phoneBook.profileImage)
 
         return cell
     }
