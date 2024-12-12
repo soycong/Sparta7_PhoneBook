@@ -11,6 +11,7 @@ import Alamofire
 class ContactAddViewController: UIViewController {
     private let contactAddView = ContactAddView()
     let phoneBookManager = PhoneBookDataManager()
+    var contact: PhoneBook?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,12 +19,22 @@ class ContactAddViewController: UIViewController {
         view = contactAddView
         
         configureNavigationBar()
+        updateUIWithContact()
     }
 
     func configureNavigationBar() {
         navigationItem.title = "New Contact"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+    }
+    
+    func updateUIWithContact() {
+        guard let contact = contact else { return }
+        contactAddView.nameTextView.text = contact.name
+        contactAddView.numberTextView.text = contact.number
+        if let imageString = contact.profileImage, let image = convertStringToImage(imageString) {
+            contactAddView.profileImageView.image = image
+        }
     }
 
     func makeRandomPokemonImage() {
@@ -42,6 +53,16 @@ class ContactAddViewController: UIViewController {
         guard let data = image.pngData() else { return ("convertImageToString fail") }
         
         return data.base64EncodedString()
+    }
+    
+    func convertStringToImage(_ base64: String) -> UIImage? {
+        guard let data = Data(base64Encoded: base64, options: .ignoreUnknownCharacters) else {
+            return UIImage(named: "ProfileImage")
+        }
+        
+        let decodedImg = UIImage(data: data)
+
+        return decodedImg
     }
 
     @objc private func saveButtonTapped() {

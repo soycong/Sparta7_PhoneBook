@@ -51,6 +51,31 @@ class PhoneBookDataManager {
         return phoneBooksArray
     }
     
+    func updateData(currentName: String, updateName: String) {
+
+        // 수정할 데이터를 찾기 위한 fetch request 생성
+        let fetchRequest = PhoneBook.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", currentName) // 예시: 이름이 "Adam"인 데이터 수정
+        
+        do {
+            // fetch request 실행
+            let result = try self.container.viewContext.fetch(fetchRequest)
+            
+            // 결과 처리
+            for data in result as [NSManagedObject] {
+                // 데이터 수정
+                data.setValue(updateName, forKey: PhoneBook.Key.name) // 이름을 "Adam"에서 "Abel"로 수정
+                
+                // 변경 사항 저장
+                try self.container.viewContext.save()
+                print("데이터 수정 완료")
+            }
+            
+        } catch {
+            print("데이터 수정 실패")
+        }
+    }
+    
     func deleteData(name: String) {
         // 삭제할 데이터를 찾기 위한 fetch request 생성
         let fetchRequest = PhoneBook.fetchRequest()

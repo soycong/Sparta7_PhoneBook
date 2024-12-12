@@ -9,13 +9,15 @@ import UIKit
 import Alamofire
 import CoreData
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MainTableViewDelegate {
     private let mainTableView = MainTableView()
     let phoneBookManager = PhoneBookDataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view = mainTableView
+        
+        mainTableView.delegate = self
         
         //phoneBookManager.deleteAllData()
         configureNavigationBar()
@@ -43,6 +45,13 @@ class ViewController: UIViewController {
         let contactAddViewController = ContactAddViewController()
         contactAddViewController.makeRandomPokemonImage()
         
+        navigationController?.pushViewController(contactAddViewController, animated: true)
+    }
+    
+    // MARK: MainTableViewDelegate
+    func didSelectContact(_ contact: PhoneBook) {
+        let contactAddViewController = ContactAddViewController()
+        contactAddViewController.contact = contact
         navigationController?.pushViewController(contactAddViewController, animated: true)
     }
 }

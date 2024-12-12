@@ -7,7 +7,12 @@
 import UIKit
 import SnapKit
 
+protocol MainTableViewDelegate: AnyObject {
+    func didSelectContact(_ contact: PhoneBook)
+}
+
 class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
+    weak var delegate: MainTableViewDelegate? // 델리게이트 프로퍼티 추가
     
     let tableView = UITableView()
     
@@ -76,6 +81,13 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         let decodedImg = UIImage(data: data)
 
         return decodedImg
+    }
+    
+    // UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedContact = phoneBookData[indexPath.row]
+        delegate?.didSelectContact(selectedContact) // 델리게이트 호출
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
