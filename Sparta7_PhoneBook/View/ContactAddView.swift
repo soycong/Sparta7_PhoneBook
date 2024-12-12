@@ -12,6 +12,8 @@ class ContactAddView: UIView {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         //imageView.image = UIImage(named: "ProfileImage")
+        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = UIColor.systemCyan.cgColor
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
@@ -20,7 +22,7 @@ class ContactAddView: UIView {
     let randomImageButton: UIButton = {
         let button = UIButton()
         button.setTitle("Random Image", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.gray, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12)
         return button
     }()
@@ -29,7 +31,7 @@ class ContactAddView: UIView {
         let textView = UITextView()
         textView.text = "Name"
         textView.textColor = .lightGray
-        textView.font = .systemFont(ofSize: 12)
+        textView.font = .systemFont(ofSize: 15)
         
         textView.layer.borderColor = UIColor.gray.cgColor
         textView.layer.borderWidth = 1
@@ -43,7 +45,7 @@ class ContactAddView: UIView {
         let textView = UITextView()
         textView.text = "PhoneNumber"
         textView.textColor = .lightGray
-        textView.font = .systemFont(ofSize: 12)
+        textView.font = .systemFont(ofSize: 15)
         
         textView.layer.borderColor = UIColor.gray.cgColor
         textView.layer.borderWidth = 1

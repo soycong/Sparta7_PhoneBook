@@ -15,11 +15,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view = mainTableView
         
         configureNavigationBar()
-        
         loadData()
     }
     
@@ -29,7 +27,7 @@ class ViewController: UIViewController {
     }
     
     func configureNavigationBar() {
-        navigationItem.title = "Pokemon"
+        navigationItem.title = "Pokemon Contacts"
         
         let addButton = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonTapped))
         navigationItem.rightBarButtonItem = addButton
@@ -41,11 +39,9 @@ class ViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        // 이 부분 수정하기
         let contactAddViewController = ContactAddViewController()
-        //contactAddViewController.makeRandomPokemonImage()
-        //contactAddViewController.makeRandomPokemonImageAndSetProfile()
-
+        contactAddViewController.makeRandomPokemonImage()
+        
         navigationController?.pushViewController(contactAddViewController, animated: true)
     }
 }

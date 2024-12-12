@@ -11,7 +11,7 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     let tableView = UITableView()
     
-    var phoneBookData: [PhoneBook] = [] // PhoneBook 데이터 배열
+    var phoneBookData: [PhoneBook] = []
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -89,10 +89,11 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         } else {
             cell.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지 설정
         }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
 }

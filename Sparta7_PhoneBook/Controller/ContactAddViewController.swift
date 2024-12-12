@@ -22,20 +22,18 @@ class ContactAddViewController: UIViewController {
         view = contactAddView
         
         configureNavigationBar()
-        makeRandomPokemonImage()
-
     }
 
     func configureNavigationBar() {
-        navigationItem.title = "Information"
-        
-        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.title = "New Contact"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
     }
     
     func setProfileImage(from urlString: String) {
         guard let url = URL(string: urlString) else {
             print("유효하지 않은 URL입니다.")
+            self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
             return
         }
         
@@ -47,6 +45,7 @@ class ContactAddViewController: UIViewController {
             } else {
                 DispatchQueue.main.async {
                     print("이미지 로드 실패")
+                    self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
                 }
             }
         }

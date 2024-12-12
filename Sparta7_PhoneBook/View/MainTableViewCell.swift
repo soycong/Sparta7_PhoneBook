@@ -11,6 +11,8 @@ final class MainTableViewCell: UITableViewCell {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         //imageView.image = UIImage(named: "ProfileImage")
+        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = UIColor.systemCyan.cgColor
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
@@ -30,17 +32,26 @@ final class MainTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var verticalStackView = {
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, numberLabel])
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
+//    private lazy var verticalStackView = {
+//        let stackView = UIStackView(arrangedSubviews: [nameLabel, numberLabel])
+//        stackView.axis = .vertical
+//        stackView.alignment = .leading
+//        stackView.distribution = .fillEqually
+//        return stackView
+//    }()
+//    
+//    private lazy var horizontalStackView = {
+//        let stackView = UIStackView(arrangedSubviews: [profileImageView, verticalStackView])
+//        stackView.axis = .horizontal
+//        stackView.alignment = .leading
+//        stackView.distribution = .fill
+//        return stackView
+//    }()
     
     private lazy var horizontalStackView = {
-        let stackView = UIStackView(arrangedSubviews: [profileImageView, verticalStackView])
+        let stackView = UIStackView(arrangedSubviews: [profileImageView, nameLabel, numberLabel])
         stackView.axis = .horizontal
+        stackView.spacing = 20
         stackView.alignment = .leading
         stackView.distribution = .fill
         return stackView
@@ -56,7 +67,7 @@ final class MainTableViewCell: UITableViewCell {
     }
     
     func configureConstraints() {
-        let profileImageSize: CGFloat = 70
+        let profileImageSize: CGFloat = 60
         
         addSubview(horizontalStackView)
         
@@ -68,12 +79,13 @@ final class MainTableViewCell: UITableViewCell {
             make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
         }
         
-        verticalStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(profileImageView)
-        }
+        //        verticalStackView.snp.makeConstraints { make in
+        //            make.centerY.equalTo(profileImageView)
+        //        }
         
         profileImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+            make.centerY.equalToSuperview()
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(20)
             make.width.equalTo(profileImageSize)
             make.height.equalTo(profileImageView.snp.width)
@@ -81,13 +93,27 @@ final class MainTableViewCell: UITableViewCell {
         
         profileImageView.layer.cornerRadius = profileImageSize/2
         profileImageView.layer.masksToBounds = true
-
+        
         nameLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(self.profileImageView.snp.trailing).offset(30)
+            make.width.equalTo(100)
+            make.height.equalTo(profileImageView.snp.width)
         }
         
         numberLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).offset(20)
+            make.width.equalTo(100)
+            make.height.equalTo(profileImageView.snp.width)
         }
+        
+        //        nameLabel.snp.makeConstraints { make in
+        //            make.leading.trailing.equalToSuperview().inset(20)
+        //        }
+        //
+        //        numberLabel.snp.makeConstraints { make in
+        //            make.leading.trailing.equalToSuperview().inset(20)
+        //        }
     }
 }
