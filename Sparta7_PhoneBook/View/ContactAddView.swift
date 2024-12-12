@@ -11,7 +11,6 @@ class ContactAddView: UIView {
 
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        //imageView.image = UIImage(named: "ProfileImage")
         imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor.systemCyan.cgColor
         imageView.contentMode = .scaleAspectFit

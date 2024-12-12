@@ -43,4 +43,47 @@ class PhoneBookDataManager {
         
         return phoneBooksArray
     }
+    
+    func deleteData(name: String) {
+        // 삭제할 데이터를 찾기 위한 fetch request 생성
+        let fetchRequest = PhoneBook.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        
+        do {
+            // fetch request 실행
+            let result = try self.container.viewContext.fetch(fetchRequest)
+            
+            // 결과 처리
+            for data in result as [NSManagedObject] {
+                self.container.viewContext.delete(data)
+                print("삭제된 데이터: \(data)")
+            }
+            
+            // 변경 사항 저장
+            try self.container.viewContext.save()
+            print("데이터 삭제 완료")
+            
+        } catch {
+            print("데이터 삭제 실패: \(error)")
+        }
+    }
+    
+    func deleteAllData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        
+        // Fetch 모든 엔티티를 가져옴
+        let entities = appDelegate.persistentContainer.managedObjectModel.entities
+        for entity in entities {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name ?? "")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
+                try context.execute(deleteRequest)
+                print("Entity \(entity.name ?? "") 데이터 삭제 성공!")
+            } catch let error {
+                print("Entity \(entity.name ?? "") 데이터 삭제 실패: \(error)")
+            }
+        }
+    }
 }

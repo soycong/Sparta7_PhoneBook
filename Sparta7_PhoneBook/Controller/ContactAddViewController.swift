@@ -25,28 +25,7 @@ class ContactAddViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
     }
-    
-    func setProfileImage(from urlString: String) {
-        guard let url = URL(string: urlString) else {
-            print("유효하지 않은 URL입니다.")
-            self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
-            return
-        }
-        
-//        AF.download(url).responseData { response in
-//            if let data = response.value, let image = UIImage(data: data) {
-//                DispatchQueue.main.async {
-//                    self.contactAddView.profileImageView.image = image
-//                }
-//            } else {
-//                DispatchQueue.main.async {
-//                    print("이미지 로드 실패")
-//                    self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
-//                }
-//            }
-//        }
-    }
-    
+
     func makeRandomPokemonImage() {
         PokemonImageService.fetchPokemonData { result in
             switch result {
@@ -57,17 +36,6 @@ class ContactAddViewController: UIViewController {
                 print("Error: \(error)")
             }
         }
-        
-//        PokemonImageService.fetchPokemonData() { [weak self] (result: Result<PokemonImageModel, Error>) in
-//            switch result {
-//            case .success(let pokemon):
-//                self?.pokemonImageURL = pokemon.sprites.front_default
-//                self?.setProfileImage(from: self?.pokemonImageURL ?? "") // 이미지 설정
-//                
-//            case .failure(let error):
-//                print("Error fetching Pokémon data: \(error.localizedDescription)")
-//            }
-//        }
     }
     
     func convertImageToString(_ image: UIImage) -> String {

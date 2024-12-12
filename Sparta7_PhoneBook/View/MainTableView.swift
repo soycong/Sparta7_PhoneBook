@@ -91,16 +91,7 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         cell.nameLabel.text = phoneBook.name
         cell.numberLabel.text = phoneBook.number
         cell.profileImageView.image = convertStringToImage(phoneBook.profileImage ?? "")
-        
-//        if let profileImageString = phoneBook.profileImage,
-//           let url = URL(string: profileImageString),
-//           let imageData = try? Data(contentsOf: url),
-//           let downloadedImage = UIImage(data: imageData) {
-//            cell.profileImageView.image = downloadedImage
-//        } else {
-//            cell.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지 설정
-//        }
-        
+
         return cell
     }
     

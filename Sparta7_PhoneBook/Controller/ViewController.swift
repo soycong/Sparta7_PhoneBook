@@ -17,6 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view = mainTableView
         
+        //phoneBookManager.deleteAllData()
         configureNavigationBar()
         loadData()
     }
