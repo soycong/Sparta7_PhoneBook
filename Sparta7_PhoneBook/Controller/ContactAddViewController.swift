@@ -56,13 +56,13 @@ class ContactAddViewController: UIViewController {
             contactAddView.profileImageView.image = image
         }
     }
-
+    
     func makeRandomPokemonImage() {
         PokemonImageService.fetchPokemonData { result in
             switch result {
             case .success(let pokemonImage):
                 self.contactAddView.profileImageView.image = pokemonImage
-
+                
             case .failure(let error):
                 print("Error: \(error)")
             }
@@ -80,12 +80,10 @@ class ContactAddViewController: UIViewController {
             return UIImage(named: "ProfileImage")
         }
         
-        let decodedImg = UIImage(data: data)
-
-        return decodedImg
+        return UIImage(data: data)
     }
 
-    @objc private func saveButtonTapped() {
+    func handleSaveModeAndEditMode(isEditMode: Bool) {
         guard let name = contactAddView.nameTextView.text,
               let phoneNumber = contactAddView.numberTextView.text,
               let profileImage = contactAddView.profileImageView.image else {
@@ -95,27 +93,24 @@ class ContactAddViewController: UIViewController {
         
         let pokemonImageString = convertImageToString(profileImage)
         
-        phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: pokemonImageString)
+        if isEditMode {
+            phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name, updateNumber: phoneNumber, updateProfileImage: pokemonImageString)
+        } else {
+            phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: pokemonImageString)
+        }
         
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func saveButtonTapped() {
+        handleSaveModeAndEditMode(isEditMode: false)
+    }
+    
+    @objc func editButtonTapped() {
+        handleSaveModeAndEditMode(isEditMode: true)
     }
     
     @objc func randomChangeButtonTapped(_ sender: UIButton) {
         makeRandomPokemonImage()
-    }
-    
-    @objc func editButtonTapped(_ sender: UIButton) {
-        guard let name = contactAddView.nameTextView.text,
-              let phoneNumber = contactAddView.numberTextView.text,
-              let profileImage = contactAddView.profileImageView.image else {
-            print("데이터가 비어 있습니다.")
-            return
-        }
-        
-        let pokemonImageString = convertImageToString(profileImage)
-        
-        phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name, updateNumber: phoneNumber,  updateProfileImage:pokemonImageString)
-        
-        self.navigationController?.popViewController(animated: true)
     }
 }
