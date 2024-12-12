@@ -68,6 +68,16 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.tableView.reloadData()
     }
     
+    func convertStringToImage(_ base64: String) -> UIImage? {
+        guard let data = Data(base64Encoded: base64, options: .ignoreUnknownCharacters) else {
+            return UIImage(named: "ProfileImage")
+        }
+        
+        let decodedImg = UIImage(data: data)
+
+        return decodedImg
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return phoneBookData.count
     }
@@ -80,15 +90,16 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         cell.nameLabel.text = phoneBook.name
         cell.numberLabel.text = phoneBook.number
+        cell.profileImageView.image = convertStringToImage(phoneBook.profileImage ?? "")
         
-        if let profileImageString = phoneBook.profileImage,
-           let url = URL(string: profileImageString),
-           let imageData = try? Data(contentsOf: url),
-           let downloadedImage = UIImage(data: imageData) {
-            cell.profileImageView.image = downloadedImage
-        } else {
-            cell.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지 설정
-        }
+//        if let profileImageString = phoneBook.profileImage,
+//           let url = URL(string: profileImageString),
+//           let imageData = try? Data(contentsOf: url),
+//           let downloadedImage = UIImage(data: imageData) {
+//            cell.profileImageView.image = downloadedImage
+//        } else {
+//            cell.profileImageView.image = UIImage(named: "ProfileImage") // 기본 이미지 설정
+//        }
         
         return cell
     }

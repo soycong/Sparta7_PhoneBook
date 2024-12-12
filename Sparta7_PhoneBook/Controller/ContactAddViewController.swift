@@ -10,10 +10,6 @@ import Alamofire
 
 class ContactAddViewController: UIViewController {
     private let contactAddView = ContactAddView()
-
-    var pokemon: PokemonImageModel?
-    var pokemonImageURL: String?
-
     let phoneBookManager = PhoneBookDataManager()
     
     override func viewDidLoad() {
@@ -37,42 +33,60 @@ class ContactAddViewController: UIViewController {
             return
         }
         
-        AF.download(url).responseData { response in
-            if let data = response.value, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.contactAddView.profileImageView.image = image
-                }
-            } else {
-                DispatchQueue.main.async {
-                    print("이미지 로드 실패")
-                    self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
-                }
-            }
-        }
+//        AF.download(url).responseData { response in
+//            if let data = response.value, let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+//                    self.contactAddView.profileImageView.image = image
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    print("이미지 로드 실패")
+//                    self.contactAddView.profileImageView.image = UIImage(named: "ProfileImage") // 실패했을 경우, 기본 이미지
+//                }
+//            }
+//        }
     }
     
     func makeRandomPokemonImage() {
-        PokemonImageService.fetchPokemonData() { [weak self] (result: Result<PokemonImageModel, Error>) in
+        PokemonImageService.fetchPokemonData { result in
             switch result {
-            case .success(let pokemon):
-                self?.pokemonImageURL = pokemon.sprites.front_default
-                self?.setProfileImage(from: self?.pokemonImageURL ?? "") // 이미지 설정
-                
+            case .success(let pokemonImage):
+                self.contactAddView.profileImageView.image = pokemonImage
+
             case .failure(let error):
-                print("Error fetching Pokémon data: \(error.localizedDescription)")
+                print("Error: \(error)")
             }
         }
+        
+//        PokemonImageService.fetchPokemonData() { [weak self] (result: Result<PokemonImageModel, Error>) in
+//            switch result {
+//            case .success(let pokemon):
+//                self?.pokemonImageURL = pokemon.sprites.front_default
+//                self?.setProfileImage(from: self?.pokemonImageURL ?? "") // 이미지 설정
+//                
+//            case .failure(let error):
+//                print("Error fetching Pokémon data: \(error.localizedDescription)")
+//            }
+//        }
+    }
+    
+    func convertImageToString(_ image: UIImage) -> String {
+        guard let data = image.pngData() else { return ("convertImageToString fail") }
+        
+        return data.base64EncodedString()
     }
 
     @objc private func saveButtonTapped() {
         guard let name = contactAddView.nameTextView.text,
               let phoneNumber = contactAddView.numberTextView.text,
-              let profileImageURL = pokemonImageURL else {
+              let profileImage = contactAddView.profileImageView.image else {
             print("데이터가 비어 있습니다.")
             return
         }
         
-        phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: profileImageURL)
+        let pokemonImageString = convertImageToString(profileImage)
+        
+        phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: pokemonImageString)
         
         self.navigationController?.popViewController(animated: true)
     }
