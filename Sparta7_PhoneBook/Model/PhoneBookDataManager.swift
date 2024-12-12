@@ -34,10 +34,8 @@ class PhoneBookDataManager {
         var phoneBooksArray: [PhoneBook] = []
         
         do {
-            // Fetch request 생성
             let fetchRequest: NSFetchRequest<PhoneBook> = PhoneBook.fetchRequest()
             
-            // 정렬 기준 추가: 이름 오름차순
             let sortDescriptor = NSSortDescriptor(key: PhoneBook.Key.name, ascending: true)
             fetchRequest.sortDescriptors = [sortDescriptor]
             
@@ -53,22 +51,17 @@ class PhoneBookDataManager {
     
     func updateData(currentName: String, updateName: String, updateNumber: String, updateProfileImage: String) {
 
-        // 수정할 데이터를 찾기 위한 fetch request 생성
         let fetchRequest = PhoneBook.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", currentName) // 예시: 이름이 "Adam"인 데이터 수정
+        fetchRequest.predicate = NSPredicate(format: "name == %@", currentName)
         
         do {
-            // fetch request 실행
             let result = try self.container.viewContext.fetch(fetchRequest)
             
-            // 결과 처리
             for data in result as [NSManagedObject] {
-                // 데이터 수정
-                data.setValue(updateName, forKey: PhoneBook.Key.name) // 이름을 "Adam"에서 "Abel"로 수정
+                data.setValue(updateName, forKey: PhoneBook.Key.name)
                 data.setValue(updateNumber, forKey: PhoneBook.Key.number)
                 data.setValue(updateProfileImage, forKey: PhoneBook.Key.profileImage)
                 
-                // 변경 사항 저장
                 try self.container.viewContext.save()
                 print("데이터 수정 완료")
             }
@@ -79,21 +72,17 @@ class PhoneBookDataManager {
     }
     
     func deleteData(name: String) {
-        // 삭제할 데이터를 찾기 위한 fetch request 생성
         let fetchRequest = PhoneBook.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", name)
         
         do {
-            // fetch request 실행
             let result = try self.container.viewContext.fetch(fetchRequest)
             
-            // 결과 처리
             for data in result as [NSManagedObject] {
                 self.container.viewContext.delete(data)
                 print("삭제된 데이터: \(data)")
             }
             
-            // 변경 사항 저장
             try self.container.viewContext.save()
             print("데이터 삭제 완료")
             

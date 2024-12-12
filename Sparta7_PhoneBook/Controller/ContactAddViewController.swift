@@ -50,6 +50,7 @@ class ContactAddViewController: UIViewController {
         guard let contact = contact else { return }
         contactAddView.nameTextView.text = contact.name
         contactAddView.numberTextView.text = contact.number
+        
         if let imageString = contact.profileImage,
            let image = convertStringToImage(imageString) {
             contactAddView.profileImageView.image = image

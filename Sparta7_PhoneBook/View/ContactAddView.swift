@@ -101,7 +101,6 @@ class ContactAddView: UIView {
         
         randomImageButton.addTarget(UIViewController(), action: #selector(ContactAddViewController.randomChangeButtonTapped(_:)), for: .touchUpInside)
 
-        
         nameTextView.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.leading.trailing.equalToSuperview().inset(30)
