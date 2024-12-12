@@ -51,11 +51,13 @@ class MainTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    // reloadData를 통해 데잍 ㅓ갱신
     func updateData(_ data: [PhoneBook]) {
         self.phoneBookData = data
         self.tableView.reloadData()
     }
-
+    
+    // Cell 선택
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedContact = phoneBookData[indexPath.row]
         delegate?.didSelectContact(selectedContact)

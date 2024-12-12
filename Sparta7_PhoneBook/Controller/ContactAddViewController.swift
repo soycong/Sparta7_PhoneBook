@@ -31,6 +31,7 @@ class ContactAddViewController: UIViewController {
         }
     }
     
+    // 상황에 따라 NavigationBar 설정
     func configureNavigationBar() {
         switch mode {
         case .add:
@@ -56,6 +57,7 @@ class ContactAddViewController: UIViewController {
         }
     }
     
+    // 랜덤 이미지 형성
     func makeRandomPokemonImage() {
         PokemonImageService.fetchPokemonData { result in
             switch result {
@@ -78,9 +80,9 @@ class ContactAddViewController: UIViewController {
         
         let pokemonImageString = ImageConversionHelper.convertImageToString(profileImage) ?? ""
 
-        if isEditMode {
+        if isEditMode { // edit일 경우 data upadte
             phoneBookManager.updateData(currentName: contact?.name ?? "", updateName: name, updateNumber: phoneNumber, updateProfileImage: pokemonImageString)
-        } else {
+        } else {  //add일 경우 data create
             phoneBookManager.createData(name: name, phoneNumber: phoneNumber, profileImageURL: pokemonImageString)
         }
         

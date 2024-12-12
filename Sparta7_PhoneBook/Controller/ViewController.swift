@@ -26,7 +26,7 @@ class ViewController: UIViewController, MainTableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadData()
+        loadData() // View가 Load 될 때마다 호출하여 데이터 갱신
     }
     
     func configureNavigationBar() {
@@ -36,11 +36,13 @@ class ViewController: UIViewController, MainTableViewDelegate {
         navigationItem.rightBarButtonItem = addButton
     }
     
+    // 연락처 정보를 읽어옴
     func loadData() {
         let phoneBooks = phoneBookManager.readData()
         mainTableView.updateData(phoneBooks)
     }
-
+    
+    // 선택한 Cell의 Contact View로 이동
     func didSelectContact(_ contact: PhoneBook) {
         let contactAddViewController = ContactAddViewController()
         contactAddViewController.contact = contact
@@ -48,6 +50,7 @@ class ViewController: UIViewController, MainTableViewDelegate {
         navigationController?.pushViewController(contactAddViewController, animated: true)
     }
     
+    // Contact 추가 화면으로 이동
     @objc private func addButtonTapped() {
         let contactAddViewController = ContactAddViewController()
         contactAddViewController.makeRandomPokemonImage()

@@ -15,6 +15,7 @@ class PhoneBookDataManager {
         self.container = appDelegate.persistentContainer
     }
     
+    // 데이터 생성
     func createData(name: String, phoneNumber: String, profileImageURL: String) {
         guard let entity = NSEntityDescription.entity(forEntityName: PhoneBook.className, in: self.container.viewContext) else { return }
         let newPhoneBook = NSManagedObject(entity: entity, insertInto: self.container.viewContext)
@@ -30,6 +31,7 @@ class PhoneBookDataManager {
         }
     }
     
+    // 데이터 읽기
     func readData() -> [PhoneBook] {
         var phoneBooksArray: [PhoneBook] = []
         
@@ -49,6 +51,7 @@ class PhoneBookDataManager {
         return phoneBooksArray
     }
     
+    // 데이터 업데이트
     func updateData(currentName: String, updateName: String, updateNumber: String, updateProfileImage: String) {
 
         let fetchRequest = PhoneBook.fetchRequest()
@@ -71,6 +74,7 @@ class PhoneBookDataManager {
         }
     }
     
+    // 데이터 단일 삭제
     func deleteData(name: String) {
         let fetchRequest = PhoneBook.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", name)
@@ -91,6 +95,7 @@ class PhoneBookDataManager {
         }
     }
     
+    // 데이터 전체 삭제
     func deleteAllData() {
         let context = self.container.viewContext
         
